@@ -10,6 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<ConnectionDB>();
 builder.Services.AddSingleton<CategoryRepository>();
 builder.Services.AddSingleton<CategoryService>();
+builder.Services.AddSingleton<RoleService>();
+builder.Services.AddSingleton<RoleRepository>();
 
 
 var app = builder.Build();
