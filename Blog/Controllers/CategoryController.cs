@@ -39,5 +39,27 @@ namespace Blog.API.Controllers
             await _categoryService.CreateCategoryAsync(category);
             return Created();
         }
+
+        [HttpGet("GetOne/{id}")] // postman para usar: https://localhost:7122/api/Category/GetOne/2
+        public async Task<ActionResult<CategoryResponseDTO>> GetOneCategoryAsync(int id)
+        {
+            var category = await _categoryService.GetOneCategoryAsync(id);
+            return Ok(category);
+        }
+
+        [HttpDelete("DeleteById")]
+        public async Task<ActionResult> DeleteCategoryByIdAsync(int id)
+        {
+            var category = await _categoryService.DeleteCategoryByIdAsync(id);
+
+            return Ok("Apagado!");
+        }
+
+        [HttpPut("UpdateById/{id}")] // https://localhost:7122/api/Category/UpdateById/5
+        public async Task<ActionResult> UpdateCategoryByIdAsync(int id, [FromBody]Category category)
+        {
+            await _categoryService.UpdateCategoryByIdAsync(category, id);
+            return Ok();
+        }
     }
 }

@@ -23,5 +23,20 @@ namespace Blog.API.Services
             var newCategory = new Category(category.Name, category.Name.ToLower().Replace(" ", "-"));
             await _categoryRepository.CreateCategoryAsync(newCategory);
         }
+
+        public async Task<CategoryResponseDTO> GetOneCategoryAsync(int id)
+        {
+            return await _categoryRepository.GetOneCategoryAsync(id);
+        }
+
+        public async Task<CategoryResponseDTO> DeleteCategoryByIdAsync(int id)
+        {
+            return await _categoryRepository.DeleteCategoryByIdAsync(id);
+        }
+
+        public async Task UpdateCategoryByIdAsync(Category category, int id)
+        {
+            await _categoryRepository.UpdateCategoryByIdAsync(category, id);
+        }
     }
 }
