@@ -2,15 +2,15 @@
 
 namespace Blog.API.Models
 {
-    public class UserRole
+    public class Tag
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Slug { get; set; }
 
-        public UserRole() { }
+        public Tag() { }
         [JsonConstructor]
-        public UserRole(string name, string slug)
+        public Tag(string name, string slug)
         {
             Name = name;
             Slug = slug;

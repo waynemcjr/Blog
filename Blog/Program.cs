@@ -12,6 +12,8 @@ builder.Services.AddSingleton<CategoryRepository>();
 builder.Services.AddSingleton<CategoryService>();
 builder.Services.AddSingleton<RoleService>();
 builder.Services.AddSingleton<RoleRepository>();
+builder.Services.AddSingleton<TagService>();
+builder.Services.AddSingleton<TagRepository>();
 
 
 var app = builder.Build();

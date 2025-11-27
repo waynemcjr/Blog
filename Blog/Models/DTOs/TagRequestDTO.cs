@@ -1,8 +1,7 @@
 ﻿namespace Blog.API.Models.DTOs
 {
-    public class UserRoleResponseDTO
+    public class TagRequestDTO
     {
         public string Name { get; set; }
-        public string Slug { get; set; }
     }
 }
