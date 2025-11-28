@@ -51,5 +51,70 @@ namespace Blog.API.Repositories
 
             await _connection.ExecuteAsync(sql, new { user.Name, user.Email, user.PasswordHash, user.Bio, user.Image, user.Slug, UserID = id });
         }
+
+        public async Task<List<User>> GetAllUserRoles()
+        {
+            IEnumerable<User> userRoles = new List<User>();
+
+            var sql = "SELECT u.Id,u.Name,u.Email,u.PasswordHash,u.Bio,u.Image,u.Slug,r.Id AS Id,r.Name,r.Slug FROM [USER] u LEFT JOIN UserRole ur ON u.Id = ur.UserId LEFT JOIN [Role] r ON r.Id = ur.RoleId;";
+
+            var userDictionary = new Dictionary<int, User>();
+
+            var results = await _connection.QueryAsync<User, Role, User>(
+                sql,
+                (user, role) =>
+                {
+
+                    if (!userDictionary.TryGetValue(user.Id, out var existingUser))
+                    {
+                        userDictionary.Add(user.Id, user);
+                        existingUser = user;
+                    }
+
+                    if (role != null)
+                    {
+                        existingUser.Roles.Add(role);
+                    }
+
+
+                    return existingUser;
+                },
+
+                 splitOn: "Id"
+             );
+            return userDictionary.Values.ToList();
+        }
+
+        public async Task<User> GetUserRolesByID(int id)
+        {
+
+            var sql = "SELECT u.Id,u.Name,u.Email,u.PasswordHash,u.Bio,u.Image,u.Slug,r.Id AS Id,r.Name,r.Slug FROM [USER] u LEFT JOIN UserRole ur ON u.Id = ur.UserId LEFT JOIN [Role] r ON r.Id = ur.RoleId WHERE u.Id = @UserID;";
+
+            var userDictionary = new Dictionary<int, User>();
+
+            await _connection.QueryAsync<User, Role, User>(
+                sql,
+                (user, role) =>
+                {
+
+                    if (!userDictionary.TryGetValue(user.Id, out var existingUser))
+                    {
+                        userDictionary.Add(user.Id, user);
+                        existingUser = user;
+                    }
+
+                    if (role != null)
+                    {
+                        existingUser.Roles.Add(role);
+                    }
+
+
+                    return existingUser;
+                },
+                param: new { UserID = id },
+                splitOn: "Id"
+             );
+            return userDictionary.Values.FirstOrDefault();
+        }
     }
 }

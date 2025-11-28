@@ -12,6 +12,8 @@ namespace Blog.API.Models
         public string Image { get; set; }
         public string Slug { get; set; }
 
+        public List<Role> Roles { get; private set; } = new();
+
         public User() { }
 
         [JsonConstructor]
@@ -23,6 +25,23 @@ namespace Blog.API.Models
             Bio = bio;
             Image = image;
             Slug = slug;
+        }
+
+        [JsonConstructor]
+        public User(int id, string name, string email, string passwordHash, string bio, string image, string slug)
+        {
+            Id = id;
+            Name = name;
+            Email = email;
+            PasswordHash = passwordHash;
+            Bio = bio;
+            Image = image;
+            Slug = slug;
+        }
+
+        public void SetRoles(Role role)
+        {
+            Roles.Add(role);
         }
     }
 }

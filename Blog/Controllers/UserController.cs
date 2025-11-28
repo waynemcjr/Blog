@@ -53,5 +53,19 @@ namespace Blog.API.Controllers
             await _userService.UpdateUserByIdAsync(user, id);
             return Ok();
         }
+
+        [HttpGet("GetUsersRoles")]
+        public async Task<ActionResult<List<UserRolesResponseDTO>>> GetUsersRoles()
+        {
+            var users = await _userService.GetAllUsersRoles();
+            return Ok(users);
+        }
+
+        [HttpGet("GetUserRolesByID/{id}")]
+        public async Task<ActionResult<UserRolesResponseDTO>> GetUserRolesByID(int id)
+        {
+            var user = await _userService.GetUserRolesByID(id);
+            return Ok(user);
+        }
     }
 }

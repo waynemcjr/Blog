@@ -41,5 +41,55 @@ namespace Blog.API.Services
         {
             await _userRepository.UpdateUserByIdAsync(user, id);
         }
+
+        public async Task<List<UserRolesResponseDTO>> GetAllUsersRoles()
+        {
+            var users = await _userRepository.GetAllUserRoles();
+
+            var dtos = users.Select(user => new UserRolesResponseDTO
+            {
+                Name = user.Name,
+                Email = user.Email,
+                PasswordHash = user.PasswordHash,
+                Bio = user.Bio,
+                Image = user.Image,
+                Slug = user.Slug,
+
+                Roles = user.Roles.Select(role => new RoleResponseDTO
+                {
+                    Name = role.Name,
+                    Slug = role.Slug
+                }).ToList()
+            }).ToList();
+
+            return dtos;
+        }
+
+        public async Task<UserRolesResponseDTO> GetUserRolesByID(int id)
+        {
+            var user = await _userRepository.GetUserRolesByID(id);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var dto = new UserRolesResponseDTO
+            {
+                Name = user.Name,
+                Email = user.Email,
+                PasswordHash = user.PasswordHash,
+                Bio = user.Bio,
+                Image = user.Image,
+                Slug = user.Slug,
+
+                Roles = user.Roles?.Select(role => new RoleResponseDTO
+                {
+                    Name = role.Name,
+                    Slug = role.Slug
+                }).ToList()
+            };
+            return dto;
+        }
     }
 }
